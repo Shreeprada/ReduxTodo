@@ -3,6 +3,7 @@ import React,{useState,useRef, useEffect} from "react";
 import { useDispatch,useSelector } from "react-redux";
 import { todoAdd,gettodo,todoRemove,todoComplete } from "../store/action";
 import { UPDATE_TODO } from "../store/action.types";
+import { Link } from "react-router-dom";
 export const TodoApp=()=>{
     const ref=useRef();
     const dispatch=useDispatch();
@@ -18,8 +19,9 @@ export const TodoApp=()=>{
             ref.current.value=null;
        
     };
-    const deletetodo=(id)=>{
-dispatch(todoRemove(id));
+    const deletetodo=(id,index)=>{
+dispatch(todoRemove(id,index));
+
 
     };
     const toggle=(item)=>{
@@ -28,7 +30,7 @@ dispatch(todoRemove(id));
         console.log(todos);
     }
     useEffect(()=>{
-        dispatch(gettodo())
+        dispatch(gettodo());
     },[]);
     if(isLoading){
         return <div>Loading...</div>
@@ -43,13 +45,12 @@ dispatch(todoRemove(id));
 <button onClick={addNew} disabled={addButtonLoading}>Add</button>
 <br/>
 <br/>
-{todos.map((item)=>(
-    <div key={item.id} style={{display:"flex",gap:"30px",marginLeft:"42%"}}>
-        <input type="checkbox" value={item.isCompleted} checked={item.isCompleted} onChange={()=>toggle(item)} />
-        <div>{item.value}</div>
-        <button onClick={()=>deletetodo(item.id)}>Remove</button>
-    </div>
-   
+{todos.map((item,index)=>(
+   <div key={item.id} style={{display:"flex",gap:"30px",marginLeft:"35%",border:"1px solid grey",marginBottom:"5px",padding:"5px 10px",width:"27%"}}>
+    <div style={{width:"25%"}}><input type="checkbox" value={item.isCompleted} checked={item.isCompleted} onChange={()=>toggle(item)} /></div>
+    <div style={{width:"50%",textAlign:"left"}}><Link to={`/todo/${item.id}`}>{item.value}</Link></div>
+    <div style={{width:"25%"}}><button onClick={()=>deletetodo(item.id,index)}>Remove</button></div>
+</div>  
 ))}
         </div>
     );

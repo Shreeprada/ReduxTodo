@@ -42,10 +42,11 @@ switch(type){
                 return todo;
             }
         });
-        return {...state,newtodos};
+        return {...state,getTodo:{todos:newtodos}};
     }
     case DELETE_TODO:{
-        return {...state,getTodo:{todos:[...state.getTodo.todos]}};
+        state.getTodo.todos.splice(payload,1);
+        return{...state,getTodo:{todos:[...state.getTodo.todos]}}
     }
     case UPDATE_TODO:{
         let newtodos=state.getTodo.todos.map((todo)=>{
@@ -56,10 +57,9 @@ switch(type){
                 return todo;
             }
         });
-        return {...state,newtodos};
+        return {...state,getTodo:{todos:newtodos}};
     }
-    default:{
-        return state;
-    }
+    default: return state;
+    
 }
 };

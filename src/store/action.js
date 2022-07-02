@@ -33,9 +33,9 @@ export const todoComplete=(item)=>(dispatch)=>{
     .then((r)=>{dispatch({type:COMPLETE_TODO,payload:r.data})})
 };
 
-    export const todoRemove=(id)=>(dispatch)=>{
+    export const todoRemove=(id,index)=>(dispatch)=>{
     axios.delete(`http://localhost:8080/todos/${id}`)
-    .then((r)=>{dispatch({type:DELETE_TODO})})
+    .then((r)=>{dispatch({type:DELETE_TODO,payload:index})})
     };
 export const todoUpdate=(payload)=>(dispatch)=>{
     axios.put(`http://localhost:8080/todos/${payload.id}`,payload)
